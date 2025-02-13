@@ -1,0 +1,16 @@
+<section class="max-w-screen max-h-screen flex overflow-hidden">
+    <header
+        class="w-fit md:px-8 flex flex-col items-center gap-8 py-8 border-2 border-l-border">
+        <h1 class="text-3xl font-bold text-nowrap ">Spartan bug app</h1>
+        <nav class="w-full flex flex-col gap-4">
+            <a
+                class="px-4 py-2 rounded-lg text-secondary-foreground flex items-center gap-2"
+                routerLink="/settings"
+                [routerLinkActive]="'bg-blue-600 !text-primary-foreground'">
+                <ng-icon name="lucideCog" size="1.25rem" />
+                Paramètres
+            </a>
+        </nav>
+    </header>
+    <router-outlet />
+</section>

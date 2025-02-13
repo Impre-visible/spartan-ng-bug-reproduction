@@ -1,0 +1,43 @@
+# Ignore node_modules folders
+node_modules/
+frontend/node_modules/
+backend/node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Dependency directories
+jspm_packages/
+
+# Typescript compiled output
+dist/
+frontend/dist/
+backend/dist/
+
+# Environment variables
+.env
+frontend/.env
+backend/.env
+
+# IDE and editor files
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# MacOS files
+.DS_Store
+
+# Coverage directory used by testing tools
+coverage/
+frontend/coverage/
+backend/coverage/
+
+# Temporary files
+tmp/
+temp/
+backend/.env.test

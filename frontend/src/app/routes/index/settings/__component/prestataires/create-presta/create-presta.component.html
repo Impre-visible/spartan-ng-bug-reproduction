@@ -1,0 +1,107 @@
+<hlm-dialog-content *brnDialogContent="let ctx" class="max-w-none">
+  <hlm-dialog-header>
+    <h3 hlmDialogTitle hlm>Créer ou modifier un prestataire</h3>
+  </hlm-dialog-header>
+  <div hlmDialogOverlay class="max-w-none">
+    <div hlmDialogContent class="!max-w-none">
+      <div class="flex flex-col gap-4 items-start">
+        <form [formGroup]="listPrestaForm" class="flex flex-col gap-6 w-full">
+          <section class="flex flex-row gap-6 w-full">
+            <hlm-form-field class="flex flex-col gap-2 w-full">
+              <brn-select class="inline-block"
+                placeholder="Selectionner le site" required
+                formControlName="site"
+                id="siteSelect"
+                #siteSelect
+                (ngModelChange)="onSiteChange($event)">
+                <hlm-select-trigger class="w-80">
+                  <hlm-select-value />
+                </hlm-select-trigger>
+                <hlm-select-content>
+                  <hlm-option *ngFor="let site of sites" [value]="site">
+                    {{ site.name }}
+                  </hlm-option>
+                </hlm-select-content>
+              </brn-select>
+              <hlm-error>Le site est requis</hlm-error>
+            </hlm-form-field>
+            <hlm-form-field class="flex flex-col gap-2 w-full">
+              <brn-select class="inline-block"
+                placeholder="Selectionner la zone" required
+                formControlName="zone"
+                id="zoneSelect"
+                #zoneSelect
+                (ngModelChange)="onSelectChange()">
+                <hlm-select-trigger class="w-80">
+                  <hlm-select-value />
+                </hlm-select-trigger>
+                <hlm-select-content>
+                  <hlm-option *ngFor="let zone of zones" [value]="zone">
+                    {{ zone.name }}
+                  </hlm-option>
+                </hlm-select-content>
+              </brn-select>
+              <hlm-error>La zone est requise</hlm-error>
+            </hlm-form-field>
+            <hlm-form-field class="flex flex-col gap-2 w-full">
+              <brn-select class="inline-block"
+                placeholder="Selectionner la typologie" required
+                id="typologieSelect"
+                #typologieSelect
+                formControlName="typologie" (ngModelChange)="onSelectChange()">
+                <hlm-select-trigger class="w-80">
+                  <hlm-select-value />
+                </hlm-select-trigger>
+                <hlm-select-content>
+                  <hlm-option *ngFor="let typologie of typologies"
+                    [value]="typologie">
+                    {{ typologie.name }}
+                  </hlm-option>
+                </hlm-select-content>
+              </brn-select>
+              <hlm-error>La typologie est requise</hlm-error>
+            </hlm-form-field>
+          </section>
+          <ng-container *ngIf="gotData === true">
+            <section class="flex flex-row gap-6 w-full items-center">
+              <brn-separator hlmSeparator class="w-[26rem]" />
+              <p class="text-lg font-bold">Prestataires</p>
+              <brn-separator hlmSeparator class="w-[26rem]" />
+            </section>
+            <section class="flex flex-row gap-4 w-full"
+              *ngFor="let row of rows.controls; let i = index;">
+              <hlm-form-field class="flex flex-col gap-1 w-full">
+                <label hlmLabel for="name">Nom</label>
+                <input id="name" type="text" formControlName="name" hlmInput
+                  placeholder="Nom du prestataire" required
+                  [value]="row.value.name" />
+                <hlm-error>Le nom est requis</hlm-error>
+              </hlm-form-field>
+              <hlm-form-field class="flex flex-col gap-1 w-full">
+                <label hlmLabel for="num_marche">Numéro de marché</label>
+                <input id="num_marche" type="text"
+                  formControlName="num_marche" hlmInput
+                  placeholder="Numéro de marché" required
+                  [value]="row.value.num_marche" />
+                <hlm-error>Le numéro de marché est requis</hlm-error>
+              </hlm-form-field>
+              <hlm-form-field class="flex flex-col gap-1 w-full">
+                <label hlmLabel for="percent">Pourcentage</label>
+                <input id="percent" type="number"
+                  formControlName="percent" hlmInput
+                  placeholder="Pourcentage" step="0.01" required
+                  max="1" min="0" [value]="row.value.percent" />
+                <hlm-error>Le pourcentage est requis</hlm-error>
+              </hlm-form-field>
+            </section>
+          </ng-container>
+        </form>
+      </div>
+    </div>
+  </div>
+  <hlm-dialog-footer>
+    <button hlmBtn type="submit" class="bg-blue-600" (click)="onSubmit()">
+      Valider les modifications
+    </button>
+  </hlm-dialog-footer>
+</hlm-dialog-content>
