@@ -15,18 +15,11 @@ import { HttpService } from '@services/http/http.service';
 })
 export class SettingsComponent {
 
-  public sites: any[] = [];
-
   constructor(private titleService: Title, private http: HttpService) {
     this.titleService.setTitle("Paramètres");
   }
 
   ngOnInit(): void {
-    this.http.get('/api/sites').subscribe((data: any) => {
-      if (!data.error) {
-        this.sites = data.data;
-      }
-    });
   }
 
 
