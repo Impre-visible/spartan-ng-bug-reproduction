@@ -15,24 +15,30 @@ export class PrestatairesController {
         @Query('typologie') typologie_code?: string
     ) {
 
+
+        /*
+        name: new FormControl(row.nom, [Validators.required]),
+        num_marche: new FormControl(row.typologie_code, [Validators.required]),
+        percent: new FormControl(1, [Validators.required, Validators.min(0), Validators.max(1)])
+        */
         let data = [
             {
                 id: 1,
-                nom: "Prestataire 1",
-                typologie_code: "A",
-                zone_id: 1
+                name: "Prestataire 1",
+                num_marche: "1",
+                percent: 0.33
             },
             {
                 id: 2,
-                nom: "Prestataire 2",
-                typologie_code: "B",
-                zone_id: 2
+                name: "Prestataire 2",
+                num_marche: "2",
+                percent: 0.33
             },
             {
                 id: 3,
-                nom: "Prestataire 3",
-                typologie_code: "A",
-                zone_id: 1
+                name: "Prestataire 3",
+                num_marche: "3",
+                percent: 0.33
             }
         ]
 

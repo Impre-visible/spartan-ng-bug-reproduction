@@ -46,8 +46,6 @@
             <hlm-form-field class="flex flex-col gap-2 w-full">
               <brn-select class="inline-block"
                 placeholder="Selectionner la typologie" required
-                id="typologieSelect"
-                #typologieSelect
                 formControlName="typologie" (ngModelChange)="onSelectChange()">
                 <hlm-select-trigger class="w-80">
                   <hlm-select-value />
@@ -62,37 +60,48 @@
               <hlm-error>La typologie est requise</hlm-error>
             </hlm-form-field>
           </section>
-          <ng-container *ngIf="gotData === true">
+          <ng-container formArrayName="rows" *ngIf="gotData">
             <section class="flex flex-row gap-6 w-full items-center">
               <brn-separator hlmSeparator class="w-[26rem]" />
               <p class="text-lg font-bold">Prestataires</p>
               <brn-separator hlmSeparator class="w-[26rem]" />
             </section>
-            <section class="flex flex-row gap-4 w-full"
-              *ngFor="let row of rows.controls; let i = index;">
+
+            <section *ngFor="let row of rows.controls; let i = index;"
+              class="flex flex-row gap-4 w-full" [formGroup]="row">
               <hlm-form-field class="flex flex-col gap-1 w-full">
-                <label hlmLabel for="name">Nom</label>
-                <input id="name" type="text" formControlName="name" hlmInput
-                  placeholder="Nom du prestataire" required
-                  [value]="row.value.name" />
+                <label hlmLabel for="name-{{i}}">Nom</label>
+                <input id="name-{{i}}" type="text" formControlName="name"
+                  hlmInput
+                  [value]="getRowValue(i, 'name')"
+                  placeholder="Nom du prestataire" required />
                 <hlm-error>Le nom est requis</hlm-error>
               </hlm-form-field>
+
               <hlm-form-field class="flex flex-col gap-1 w-full">
-                <label hlmLabel for="num_marche">Numéro de marché</label>
-                <input id="num_marche" type="text"
-                  formControlName="num_marche" hlmInput
-                  placeholder="Numéro de marché" required
-                  [value]="row.value.num_marche" />
+                <label hlmLabel for="num_marche-{{i}}">Numéro de marché</label>
+                <input id="num_marche-{{i}}" type="text"
+                  formControlName="num_marche"
+                  [value]="getRowValue(i, 'num_marche')"
+                  hlmInput placeholder="Numéro de marché" required />
                 <hlm-error>Le numéro de marché est requis</hlm-error>
               </hlm-form-field>
+
               <hlm-form-field class="flex flex-col gap-1 w-full">
-                <label hlmLabel for="percent">Pourcentage</label>
-                <input id="percent" type="number"
-                  formControlName="percent" hlmInput
-                  placeholder="Pourcentage" step="0.01" required
-                  max="1" min="0" [value]="row.value.percent" />
+                <label hlmLabel for="percent-{{i}}">Pourcentage</label>
+                <input id="percent-{{i}}" type="number"
+                  formControlName="percent"
+                  [value]="getRowValue(i, 'percent')"
+                  hlmInput placeholder="Pourcentage" step="0.01" required
+                  max="1" min="0" />
                 <hlm-error>Le pourcentage est requis</hlm-error>
               </hlm-form-field>
+            </section>
+            <section class="flex flex-row gap-6 w-full">
+              <button hlmBtn type="button" class="bg-blue-600"
+                (click)="addRow()">
+                Ajouter un prestataire
+              </button>
             </section>
           </ng-container>
         </form>

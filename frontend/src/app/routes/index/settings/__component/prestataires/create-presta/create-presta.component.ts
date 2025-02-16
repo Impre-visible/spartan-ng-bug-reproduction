@@ -1,5 +1,5 @@
 import { Component, inject, Input } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HlmButtonDirective } from '@spartan-ng/ui-button-helm';
 import { BrnDialogImports } from '@spartan-ng/brain/dialog';
 import { HlmDialogImports } from '@spartan-ng/ui-dialog-helm';
@@ -45,8 +45,9 @@ export class CreatePrestaComponent {
     site: new FormControl<any | null>(null, [Validators.required]),
     zone: new FormControl<any | null>({ value: null, disabled: true }, [Validators.required]),
     typologie: new FormControl<any | null>(null, [Validators.required]),
-    rows: new FormArray<any>([]),
+    rows: this._formBuilder.array<FormGroup>([])
   });
+
   constructor(private http: HttpService) {
     this.sites = [
       {
@@ -97,13 +98,23 @@ export class CreatePrestaComponent {
   }
 
 
-  get rows(): FormArray {
-    return this.listPrestaForm.get('rows') as FormArray;
+  get rows(): FormArray<FormGroup> {
+    return this.listPrestaForm.controls["rows"] as FormArray<FormGroup>;
   }
 
-  getRows(): any[] {
-    return this.rows.controls.map(control => control.value);
+
+  private createRow(): FormGroup {
+    return this._formBuilder.group({
+      name: new FormControl(null, Validators.required),
+      num_marche: new FormControl(null, Validators.required),
+      percent: new FormControl(null, [Validators.required, Validators.min(0), Validators.max(1)])
+    });
   }
+
+  addRow() {
+    this.rows.push(this.createRow());
+  }
+
 
   onSiteChange(site: any) {
     this.zones = site.zone;
@@ -141,25 +152,29 @@ export class CreatePrestaComponent {
   }
 
   handleData(data: any[]) {
-    this.listPrestaForm.setControl(
-      'rows',
-      new FormArray(
-        data.map(presta =>
-          this._formBuilder.group({
-            id: new FormControl(presta.id),
-            name: new FormControl(presta.name),
-            num_marche: new FormControl(presta.num_marche),
-            percent: new FormControl(presta.percent || 0, [Validators.required, Validators.min(0), Validators.max(1)]),
-          })
-        )
-      )
-    );
+    this.listPrestaForm.controls.rows.disable();
+    this.rows.clear();
+    data.forEach(row => {
+      this.rows.push(this._formBuilder.group({
+        name: new FormControl(row.name, [Validators.required]),
+        num_marche: new FormControl(row.num_marche, [Validators.required]),
+        percent: new FormControl(row.percent, [Validators.required, Validators.min(0), Validators.max(1)])
+      }));
+    });
 
-    this.listPrestaForm.controls.site.enable();
-    this.listPrestaForm.controls.zone.enable();
-    this.listPrestaForm.controls.typologie.enable();
+
+    setTimeout(() => {
+      this.listPrestaForm.controls.rows.enable();
+      this.listPrestaForm.controls.site.enable();
+      this.listPrestaForm.controls.zone.enable();
+      this.listPrestaForm.controls.typologie.enable();
+    }, 0);
   }
 
+  getRowValue(index: number, key: string) {
+    console.log(this.rows.controls[index].get(key)?.value);
+    return this.rows.controls[index].get(key)?.value;
+  }
   onSubmit() {
     if (!this.listPrestaForm.valid) {
       toast.error('Veuillez remplir tous les champs');
