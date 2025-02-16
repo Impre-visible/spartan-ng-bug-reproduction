@@ -171,10 +171,6 @@ export class CreatePrestaComponent {
     }, 0);
   }
 
-  getRowValue(index: number, key: string) {
-    console.log(this.rows.controls[index].get(key)?.value);
-    return this.rows.controls[index].get(key)?.value;
-  }
   onSubmit() {
     if (!this.listPrestaForm.valid) {
       toast.error('Veuillez remplir tous les champs');

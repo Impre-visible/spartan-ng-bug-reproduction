@@ -73,7 +73,7 @@
                 <label hlmLabel for="name-{{i}}">Nom</label>
                 <input id="name-{{i}}" type="text" formControlName="name"
                   hlmInput
-                  [value]="getRowValue(i, 'name')"
+                  [value]="row.controls['name'].value"
                   placeholder="Nom du prestataire" required />
                 <hlm-error>Le nom est requis</hlm-error>
               </hlm-form-field>
@@ -82,7 +82,7 @@
                 <label hlmLabel for="num_marche-{{i}}">Numéro de marché</label>
                 <input id="num_marche-{{i}}" type="text"
                   formControlName="num_marche"
-                  [value]="getRowValue(i, 'num_marche')"
+                  [value]="row.controls['num_marche'].value"
                   hlmInput placeholder="Numéro de marché" required />
                 <hlm-error>Le numéro de marché est requis</hlm-error>
               </hlm-form-field>
@@ -91,7 +91,7 @@
                 <label hlmLabel for="percent-{{i}}">Pourcentage</label>
                 <input id="percent-{{i}}" type="number"
                   formControlName="percent"
-                  [value]="getRowValue(i, 'percent')"
+                  [value]="row.controls['percent'].value"
                   hlmInput placeholder="Pourcentage" step="0.01" required
                   max="1" min="0" />
                 <hlm-error>Le pourcentage est requis</hlm-error>
